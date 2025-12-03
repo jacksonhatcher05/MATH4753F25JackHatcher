@@ -1,0 +1,84 @@
+---
+author: "Jack Hatcher"
+date: " 10/01/2025"
+title: "Birthday"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Birthday}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(MATH4753F25JackHatcher) 
+```
+
+# 1. Mathematical Derivation
+
+\[
+P(\text{all different}) =
+\frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdots
+\frac{365-n+1}{365}.
+\]
+
+The probability that at least one match occurs is:
+
+\[
+P(\text{at least one match}) = 1 - P(\text{all different})
+= 1 - \frac{365 \cdot 364 \cdot \dots \cdot (365-n+1)}{365^n}.
+\]
+
+# 2. Reformulation Using `lchoose` and `lfactorial`
+
+The numerator can be rewritten using factorials:
+
+\[
+365 \cdot 364 \cdot \dots \cdot (365-n+1) = \frac{365!}{(365-n)!}.
+\]
+
+So
+
+\[
+P(\text{at least one match}) = 1 - \frac{\frac{365!}{(365-n)!}}{365^n}.
+\]
+
+
+
+\[
+\log P(\text{all different}) = \log\binom{365}{n} + \log(n!) - n \log(365)
+= lchoose(365, n) + lfactorial(n) - n \log(365),
+\]
+
+
+
+# 3. Body of the Function
+
+```{r}
+#' Birthday Function
+#'
+#' @param x Integer or vector, number of people in the group.
+#'
+#' @return Values between 0 and 1 giving the probability.
+#' @export
+#'
+#' @examples
+#' birthday(20)
+#' birthday(20:24)
+birthday <- function(x) {
+  1 - exp(lchoose(365, x) + lfactorial(x) - x * log(365)) 
+}
+```
+
+# 4. Result of `birthday(20:25)`
+
+```{r}
+birthday(20:25)
+```
+
+```{r setup}
+

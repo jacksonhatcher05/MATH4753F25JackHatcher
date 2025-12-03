@@ -1,0 +1,79 @@
+---
+title: "Vignette"
+author: "Jack Hatcher"
+date: "2025-10-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+title: "The Birthday Problem"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The Birthday Problem}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Introduction
+
+This vignette explains the **birthday problem** and how it is implemented
+in the `birthday()` function from this package.
+
+We want the probability that, in a group of size \(n\), **at least two people share the same birthday**.
+Assuming 365 equally likely birthdays (ignoring leap years), it is easier
+to compute the complement: the probability that all \(n\) birthdays are different.
+
+# Mathematical Derivation
+
+The probability that all birthdays are different is:
+
+\[
+P(\text{all different}) =
+\frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdots
+\frac{365-n+1}{365}.
+\]
+
+Thus, the probability that **at least one match occurs** is:
+
+\[
+P(\text{at least one match}) = 1 - P(\text{all different})
+= 1 - \frac{365 \cdot 364 \cdot \dots \cdot (365-n+1)}{365^n}.
+\]
+
+# Reformulation Using Log-Factorials
+
+We can rewrite the numerator using factorials:
+
+\[
+365 \cdot 364 \cdot \dots \cdot (365-n+1) = \frac{365!}{(365-n)!}.
+\]
+
+So the probability becomes:
+
+\[
+P(\text{at least one match}) =
+1 - \frac{\frac{365!}{(365-n)!}}{365^n}.
+\]
+
+To avoid numerical overflow, we use logarithms:
+
+\[
+\log P(\text{all different}) = \log(365!) - \log((365-n)!) - n \log(365)
+= lfactorial(365) - lfactorial(365-n) - n \log(365),
+\]
+
+and then exponentiate and subtract from 1 to get the final probability.
+
+# The Function
+
+Here is the body of the function in this package:
+
+```r
+birthday <- function(x) {
+  1 - exp(lchoose(365, x) + lfactorial(x) - x * log(365))
+}
+
