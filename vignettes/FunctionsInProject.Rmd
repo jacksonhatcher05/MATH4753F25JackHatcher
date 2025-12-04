@@ -1,0 +1,57 @@
+---
+title: "FunctionsInProject"
+author: "Jack Hatcher"
+date: "2025-12-04"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{FunctionsInProject}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+```{r setup, include=FALSE}
+library(MATH4753F25JackHatcher)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ntickets
+
+```{r}
+res1 <- ntickets(N = 400, gamma = 0.02, p = 0.95)
+res1
+
+
+```
+
+# myboot2
+
+```{r}
+
+set.seed(10)
+sample_data <- rnorm(20, mean = 5, sd = 2)
+res2 <- myboot2(x = sample_data, fun = mean)
+res2$ci
+res2$pte
+hist(res2$xstat)
+```
+
+# mycltb
+
+```{r}
+
+mycltb(n = 5, iter = 1000, p = 0.3)
+
+```
+
+
+# scatterhist
+
+```{r}
+
+x <- rnorm(50)
+y <- rnorm(50, mean = 2)
+scatterhist(x, y, xlab = "X values", ylab = "Y values")
+
+```

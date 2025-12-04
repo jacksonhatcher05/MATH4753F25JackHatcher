@@ -1,3 +1,7 @@
+#' @importFrom grDevices rainbow rgb hcl
+#' @importFrom graphics abline barplot curve hist layout legend mtext par plot points polygon segments text
+#' @importFrom stats dnorm pbinom pnorm quantile rbinom rhyper sd uniroot
+NULL
 #' DDT Date in fish in the Tennessee River and Tributaries
 #'
 #' A subset of data from the World Health Organization Global Tuberculosis

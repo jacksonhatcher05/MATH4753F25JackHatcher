@@ -13,17 +13,25 @@
 #' mycltb(n=5, iter=1000, p=0.3)
 #' @export
 mycltb <- function(n, iter, p=0.5, ...) {
-  y <- rbinom(n*iter, size=n, prob=p)
-  data <- matrix(y, nr=n, nc=iter, byrow=TRUE)
+  # Generate binomial samples
+  y <- rbinom(n * iter, size = n, prob = p)
+
+  # Use full argument names in matrix()
+  data <- matrix(y, nrow = n, ncol = iter, byrow = TRUE)
+
+  # Sample means
   w <- apply(data, 2, mean)
-  param <- hist(w, plot=FALSE)
+
+  # Histogram parameters
+  param <- hist(w, plot = FALSE)
   ymax <- 1.1 * max(param$density)
 
-  hist(w, freq=FALSE, ylim=c(0, ymax),
-       main=paste("Histogram of sample mean\nn =", n, ", p =", p),
-       xlab="Sample mean", ...)
+  # Plot histogram
+  hist(w, freq = FALSE, ylim = c(0, ymax),
+       main = paste("Histogram of sample mean\nn =", n, ", p =", p),
+       xlab = "Sample mean", ...)
 
-  curve(dnorm(x, mean=n*p, sd=sqrt(n*p*(1-p))), add=TRUE,
-        col="Red", lty=2, lwd=3)
+  # Overlay theoretical normal curve
+  curve(dnorm(x, mean = n*p, sd = sqrt(n*p*(1-p))),
+        add = TRUE, col = "Red", lty = 2, lwd = 3)
 }
-

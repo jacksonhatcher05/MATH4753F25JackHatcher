@@ -111,7 +111,7 @@ ntickets <- function(N, gamma, p) {
   plot(ns, g_disc_vals,
        type = "b", pch = 19, cex = 0.7,
        xlab = "n (tickets sold)", ylab = "objective (1 - gamma - P(shows <= N))",
-       main = paste0("Discrete objective (Binomial)  — N=", N, ", p=", p, ", gamma=", gamma))
+       main = paste0("Discrete objective (Binomial)  - N=", N, ", p=", p, ", gamma=", gamma))
   abline(h = 0, col = "gray40", lty = 2)
   # mark nd
   if (nd %in% ns) points(nd, g_disc_vals[which(ns == nd)], pch = 21, bg = "red", cex = 2)
